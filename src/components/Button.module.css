@@ -1,0 +1,16 @@
+.button {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 0.2rem 0.8rem;
+}
+
+.button > img {
+  width: 0.7rem;
+  margin-left: 0.4rem;
+}
+
+.open {
+  border: 1px solid black;
+}
