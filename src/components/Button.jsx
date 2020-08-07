@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './Button.module.css';
+import add from '../assets/icons/add.png';
+import close from '../assets/icons/close.png';
 
 const ICONS = {
-  plus: 'https://img.icons8.com/ios-glyphs/24/000000/plus-math.png',
-  close: 'https://img.icons8.com/ios-glyphs/24/000000/multiply.png',
+  add,
+  close,
 };
-
 const BUTTON_TYPE = {
   cancel: 'cancel',
   submit: 'submit',
