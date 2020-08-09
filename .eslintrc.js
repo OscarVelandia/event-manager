@@ -25,5 +25,6 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/button-has-type': 'off',
+    'no-underscore-dangle': 'off',
   },
 };
