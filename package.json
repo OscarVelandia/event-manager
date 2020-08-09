@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "server": "json-server --watch db.json",
+    "server": "json-server --watch db.json --port 3004",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "use-http": "^1.0.13"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.0",
