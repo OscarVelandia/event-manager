@@ -14,14 +14,23 @@ const BUTTON_TYPE = {
   open: 'open',
 };
 
-export default function Button({ onClick, text, type, icon }) {
+export default function Button({ onClick, type, text, icon }) {
+  const buttonType = BUTTON_TYPE[type];
+  const iconType = `${buttonType}Icon`;
+
   return (
     <button
       onClick={onClick}
       type={BUTTON_TYPE[type]}
-      className={`${styles[type]} ${styles.button}`}>
-      <span>{text}</span>
-      <img alt={`${icon} icon`} src={ICONS[icon]} />
+      className={`${styles[buttonType]} ${styles.button}`}>
+      {text && <span>{text}</span>}
+      {icon && (
+        <img
+          alt={`${icon} icon`}
+          src={ICONS[icon]}
+          className={`${styles[iconType]} ${styles.button}`}
+        />
+      )}
     </button>
   );
 }

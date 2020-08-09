@@ -6,11 +6,33 @@
   padding: 0.2rem 0.8rem;
 }
 
-.button > img {
-  width: 0.7rem;
-  margin-left: 0.4rem;
-}
-
 .open {
   border: 1px solid black;
+}
+
+.openIcon {
+  width: 0.5rem;
+  margin-left: 0.4rem;
+  padding: 0;
+}
+
+.close {
+  border: none;
+}
+
+.closeIcon {
+  width: 2rem;
+  padding: 0;
+}
+
+.cancel {
+  border: none;
+  background-color: red;
+  color: white;
+}
+
+.submit {
+  border: none;
+  background-color: green;
+  color: white;
 }
