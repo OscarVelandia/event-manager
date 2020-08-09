@@ -44,12 +44,12 @@ function App() {
             ({ categoryId }) => categoryId === category.id,
           );
 
-          _parsedEvents[index] = isHighlightSection
-            ? {
-                ...category,
-                events: events.slice(0, category.limit),
-              }
-            : { ...category, events: eventsInCategory };
+          _parsedEvents[index] = {
+            ...category,
+            events: isHighlightSection
+              ? eventsInCategory
+              : events.slice(0, category.limit),
+          };
 
           return _parsedEvents;
         },
