@@ -1,17 +1,18 @@
 import React from 'react';
 import Card from './Card';
+import styles from './EventSection.module.css';
 
 export default function EventSection({ label, events = [] }) {
-  const eventCard = events.map(
-    ({ id, _label, description, location, date, categoryId }) => (
-      <Card key={id} {...{ _label, description, location, date, categoryId }} />
-    ),
-  );
-
   return (
-    <div>
-      <h2>{label}</h2>
-      {eventCard}
-    </div>
+    <section>
+      <h2 className={styles.sectionTitle}>{label}</h2>
+      <div className={styles.cardContainer}>
+        {events.map(
+          ({ id, label: eventLabel, description, location, date, categoryId }) => (
+            <Card key={id} {...{ eventLabel, description, location, date, categoryId }} />
+          ),
+        )}
+      </div>
+    </section>
   );
 }

@@ -1,0 +1,11 @@
+.cardContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 400;
+  text-align: start;
+}
