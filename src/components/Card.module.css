@@ -1,2 +1,30 @@
+.cardContainer {
+  padding: 1%;
+  margin-bottom: 2%;
+  margin-right: 2%;
+  border: 3px solid black;
+  width: 20%;
+}
+
+.cardContainer > h3 {
+  margin-top: 0;
+}
+
+.cardContainer > * {
+  text-align: start;
+  list-style-type: none;
+}
+
+.cardContainer > *:not(:last-child) {
+  margin-bottom: 3%;
+}
+
 .footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+input.checkbox {
+  width: 4rem;
+  height: 2rem;
 }
