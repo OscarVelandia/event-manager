@@ -5,20 +5,49 @@ const inputStyles = {
   width: '80%',
 };
 
-const EventCreationForm = ({ categories }) => {
+const EventCreationForm = ({ onChange }) => {
   return (
     <form>
-      <Input type="input" id="Name" customStyles={inputStyles} hasLabel />
-      <Input type="input" id="Description" customStyles={inputStyles} hasLabel />
       <Input
-        type="select"
-        id="Category"
+        type="input"
+        id="Name"
+        name="label"
         customStyles={inputStyles}
-        options={categories}
         hasLabel
+        onChange={onChange}
       />
-      <Input type="input" id="Location" customStyles={inputStyles} hasLabel />
-      <Input type="input" id="Date" customStyles={inputStyles} hasLabel />
+      <Input
+        type="input"
+        id="Description"
+        name="description"
+        customStyles={inputStyles}
+        hasLabel
+        onChange={onChange}
+      />
+      <Input
+        type="input"
+        id="Category"
+        name="categoryLabel"
+        customStyles={inputStyles}
+        hasLabel
+        onChange={onChange}
+      />
+      <Input
+        type="input"
+        id="Location"
+        name="location"
+        customStyles={inputStyles}
+        hasLabel
+        onChange={onChange}
+      />
+      <Input
+        type="input"
+        id="Date"
+        name="date"
+        customStyles={inputStyles}
+        hasLabel
+        onChange={onChange}
+      />
     </form>
   );
 };
