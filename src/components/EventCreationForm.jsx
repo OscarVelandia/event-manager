@@ -5,7 +5,7 @@ const inputStyles = {
   width: '80%',
 };
 
-const EventCreationForm = ({ onChange }) => {
+const EventCreationForm = ({ categories, onChange }) => {
   return (
     <form>
       <Input
@@ -25,10 +25,11 @@ const EventCreationForm = ({ onChange }) => {
         onChange={onChange}
       />
       <Input
-        type="input"
+        type="select"
         id="Category"
-        name="categoryLabel"
+        name="category"
         customStyles={inputStyles}
+        options={categories}
         hasLabel
         onChange={onChange}
       />

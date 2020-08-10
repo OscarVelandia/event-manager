@@ -18,13 +18,12 @@ const Input = ({
   isSelected,
 }) => {
   const inputType = INPUT_TYPE[type];
-  const [optionsName] = options ? Object.keys(options) : [];
   const optionsEl =
     options &&
     options.map(({ id: selectId, label }) => {
       return (
         <React.Fragment key={selectId}>
-          <option key={selectId} value={label}>
+          <option key={selectId} value={selectId}>
             {label}
           </option>
         </React.Fragment>
@@ -37,7 +36,7 @@ const Input = ({
         {hasLabel && id}
       </label>
       {options ? (
-        <select onChange={({ target }) => onChange(target, id)} id={optionsName}>
+        <select onChange={({ target }) => onChange(target, name)} id={id}>
           {optionsEl}
         </select>
       ) : (

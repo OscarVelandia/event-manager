@@ -9,6 +9,7 @@ import generateId from '../utils/generateId';
 import Modal from '../components/Modal';
 import EventCreationForm from '../components/EventCreationForm';
 import parseEvents from '../utils/parseEvents';
+import sortByDate from '../utils/sortByDate';
 
 const BASE_PATH = process.env.REACT_APP_API_BASE_PATH;
 const MAX_UPCOMING_EVENTS = 5;
@@ -23,7 +24,7 @@ const RETRY_OPTIONS = { retries: 2, retryDelay: 3000 };
 const INITIAL_EVENT_FORM_STATE = {
   label: '',
   description: '',
-  categoryLabel: '',
+  category: '',
   location: '',
   date: '',
 };
@@ -46,7 +47,6 @@ const App = () => {
   } = useFetch(`${BASE_PATH}/events`, RETRY_OPTIONS);
   const {
     get: getCategories,
-    post: postCategories,
     response: responseCategories,
     loading: isLoadingCategories,
     error: errorCategories,
@@ -69,6 +69,7 @@ const App = () => {
         if (!responseEvents.ok || !responseCategories.ok || !responseSubscriptions.ok) {
           return;
         }
+        INITIAL_EVENT_FORM_STATE.category = _categories[0].id;
 
         const parsedEvents = parseEvents(
           [HIGHLIGHT_EVENTS_SECTION, ..._categories],
@@ -139,8 +140,12 @@ const App = () => {
     setCreateEventForm({ [inputName]: value });
   };
 
-  const createEvent = (newCategory) => {
-    const { label, location, description, date } = createEventForm;
+  const handleModalClose = () => {
+    setCreateEventForm(INITIAL_EVENT_FORM_STATE);
+  };
+
+  const handleModalSubmit = () => {
+    const { label, location, description, date, category } = createEventForm;
 
     const payload = {
       id: generateId(),
@@ -148,30 +153,20 @@ const App = () => {
       description,
       location,
       date,
-      categoryId: newCategory.id,
+      categoryId: Number(category),
     };
 
     postEvents(payload).then((addedEvent) => {
-      const updatedEvents = [...events, addedEvent];
-      const updatedSection = { ...newCategory, events: [addedEvent] };
+      const updatedSection = sections.map((section) => {
+        return section.id === Number(category)
+          ? { ...section, events: sortByDate([...section.events, addedEvent], 'date') }
+          : section;
+      });
 
-      setEvents(updatedEvents);
-      setSections((oldSections) => [...oldSections, updatedSection]);
+      setEvents((oldEvents) => [...oldEvents, addedEvent]);
+      setSections(updatedSection);
+      handleModalClose();
     });
-  };
-
-  const handleModalSubmit = () => {
-    const { categoryLabel } = createEventForm;
-    const categoryPayload = { id: generateId(), label: categoryLabel };
-
-    postCategories(categoryPayload).then((category) => {
-      setCategories((oldCategories) => [...oldCategories, category]);
-      createEvent(category);
-    });
-  };
-
-  const handleModalClose = () => {
-    setCreateEventForm(INITIAL_EVENT_FORM_STATE);
   };
 
   return (
