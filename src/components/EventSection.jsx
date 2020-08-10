@@ -7,28 +7,32 @@ const EventSection = ({ label, events = [], onChange }) => {
     <section>
       <h2 className={styles.sectionTitle}>{label}</h2>
       <div className={styles.cardContainer}>
-        {events.map(
-          ({
-            id: eventId,
-            label: eventLabel,
-            hasSubscription,
-            description,
-            location,
-            date,
-          }) => (
-            <Card
-              key={eventId}
-              {...{
-                eventLabel,
-                hasSubscription,
-                description,
-                location,
-                date,
-                eventId,
-                onChange,
-              }}
-            />
-          ),
+        {events.length ? (
+          events.map(
+            ({
+              id: eventId,
+              label: eventLabel,
+              hasSubscription,
+              description,
+              location,
+              date,
+            }) => (
+              <Card
+                key={eventId}
+                {...{
+                  eventLabel,
+                  hasSubscription,
+                  description,
+                  location,
+                  date,
+                  eventId,
+                  onChange,
+                }}
+              />
+            ),
+          )
+        ) : (
+          <h3 className={styles.noEventsTitle}>There are no events at this time.</h3>
         )}
       </div>
     </section>
