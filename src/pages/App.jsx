@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import useFetch from 'use-http';
 import styles from './App.module.css';
 import Button from '../components/Button';
@@ -20,20 +20,33 @@ const HIGHLIGHT_EVENTS_SECTION = {
   events: [],
 };
 const RETRY_OPTIONS = { retries: 2, retryDelay: 3000 };
+const INITIAL_EVENT_FORM_STATE = {
+  label: '',
+  description: '',
+  categoryLabel: '',
+  location: '',
+  date: '',
+};
 
 const App = () => {
   const [sections, setSections] = useState([]);
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
+  const [createEventForm, setCreateEventForm] = useReducer(
+    (data, newData) => ({ ...data, ...newData }),
+    INITIAL_EVENT_FORM_STATE,
+  );
   const {
     get: getEvents,
+    post: postEvents,
     response: responseEvents,
     loading: isLoadingEvents,
     error: errorEvents,
   } = useFetch(`${BASE_PATH}/events`, RETRY_OPTIONS);
   const {
     get: getCategories,
+    post: postCategories,
     response: responseCategories,
     loading: isLoadingCategories,
     error: errorCategories,
@@ -79,31 +92,32 @@ const App = () => {
     responseSubscriptions,
   ]);
 
-  const removeSubscription = (id) => {
-    deleteSubscriptions(id).then((_) => {
-      const filteredSubscriptions = subscriptions.filter(({ id: _id }) => _id !== id);
-      const parsedEvents = parseEvents(
-        [HIGHLIGHT_EVENTS_SECTION, ...categories],
-        events,
-        filteredSubscriptions,
+  const updateEventsSubscription = (newSubscriptions) => {
+    const parsedEvents = parseEvents(
+      [HIGHLIGHT_EVENTS_SECTION, ...categories],
+      events,
+      newSubscriptions,
+    );
+
+    setSubscriptions(newSubscriptions);
+    setSections(parsedEvents);
+  };
+
+  const removeSubscription = (subscriptionId) => {
+    deleteSubscriptions(subscriptionId).then(() => {
+      const filteredSubscriptions = subscriptions.filter(
+        ({ id }) => id !== subscriptionId,
       );
 
-      setSubscriptions(filteredSubscriptions);
-      setSections(parsedEvents);
+      updateEventsSubscription(filteredSubscriptions);
     });
   };
 
   const updateSubscriptions = (payload) => {
     postSubscriptions(payload).then((_subscription) => {
       const updatedSubscriptions = [...subscriptions, _subscription];
-      const parsedEvents = parseEvents(
-        [HIGHLIGHT_EVENTS_SECTION, ...categories],
-        events,
-        updatedSubscriptions,
-      );
 
-      setSubscriptions(updatedSubscriptions);
-      setSections(parsedEvents);
+      updateEventsSubscription(updatedSubscriptions);
     });
   };
 
@@ -121,6 +135,45 @@ const App = () => {
     }
   };
 
+  const handleCreateEventFormChange = ({ value }, inputName) => {
+    setCreateEventForm({ [inputName]: value });
+  };
+
+  const createEvent = (newCategory) => {
+    const { label, location, description, date } = createEventForm;
+
+    const payload = {
+      id: generateId(),
+      label,
+      description,
+      location,
+      date,
+      categoryId: newCategory.id,
+    };
+
+    postEvents(payload).then((addedEvent) => {
+      const updatedEvents = [...events, addedEvent];
+      const updatedSection = { ...newCategory, events: [addedEvent] };
+
+      setEvents(updatedEvents);
+      setSections((oldSections) => [...oldSections, updatedSection]);
+    });
+  };
+
+  const handleModalSubmit = () => {
+    const { categoryLabel } = createEventForm;
+    const categoryPayload = { id: generateId(), label: categoryLabel };
+
+    postCategories(categoryPayload).then((category) => {
+      setCategories((oldCategories) => [...oldCategories, category]);
+      createEvent(category);
+    });
+  };
+
+  const handleModalClose = () => {
+    setCreateEventForm(INITIAL_EVENT_FORM_STATE);
+  };
+
   return (
     <main className={styles.app}>
       {isLoading && <Loading />}
@@ -130,6 +183,8 @@ const App = () => {
         <>
           <header className={styles.createEventContainer}>
             <Modal
+              submitHandler={handleModalSubmit}
+              closeHandler={handleModalClose}
               title="Create event"
               activator={({ setIsOpen }) => (
                 <Button
@@ -139,7 +194,10 @@ const App = () => {
                   icon="add"
                 />
               )}>
-              <EventCreationForm {...{ categories }} />
+              <EventCreationForm
+                categories={categories}
+                onChange={handleCreateEventFormChange}
+              />
             </Modal>
           </header>
 
