@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 import Button from './Button';
 
-const Modal = ({ children, activator, submitEvent, title }) => {
+const Modal = ({ children, activator, closeHandler, submitHandler, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const modalRoot = document.getElementById('modal-root');
 
@@ -14,7 +14,14 @@ const Modal = ({ children, activator, submitEvent, title }) => {
 
     if (event.which === enterKeycode || isEventClick) {
       setIsOpen(false);
+      closeHandler(event);
     }
+  };
+
+  const handleSubmitModal = (event) => {
+    event.preventDefault();
+    setIsOpen(false);
+    submitHandler(event);
   };
 
   return (
@@ -44,7 +51,7 @@ const Modal = ({ children, activator, submitEvent, title }) => {
               {children}
               <div className={styles.footer}>
                 <Button onClick={handleCloseModal} type="cancel" text="CANCEL" />
-                <Button onClick={submitEvent} type="submit" text="OK" />
+                <Button onClick={handleSubmitModal} type="submit" text="OK" />
               </div>
             </div>
           </div>
