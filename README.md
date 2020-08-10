@@ -12,3 +12,6 @@
 * Para mantener un estandar en el código agregué las herramientas: *Husky*, *lint-staged*, *Eslint* (con la guía de estilos de airbnb) y *Prettier*
 * Agregué la configuración para usar el debugger de VSCode, para iniciarlo solo hay que oprimir *F5*.   
 * Para las llamadas al servidor use el paquete use-http. 
+
+## Para mejorar en una segunda version
+* Agregar manejo de errores en el formulario
