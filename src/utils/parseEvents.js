@@ -1,13 +1,13 @@
 import sortByDate from './sortByDate';
 
-const parseEvents = (_categories, _events, _subscriptions) => {
-  const eventsWithSubscription = _events.map((event) => ({
+const parseEvents = (categories, events, subscriptions) => {
+  const eventsWithSubscription = events.map((event) => ({
     ...event,
-    hasSubscription: _subscriptions.some(({ eventId }) => eventId === event.id),
+    hasSubscription: subscriptions.some(({ eventId }) => eventId === event.id),
   }));
   const eventsSorted = sortByDate(eventsWithSubscription, 'date');
 
-  return _categories.reduce((parsedEvents, category, index) => {
+  return categories.reduce((parsedEvents, category, index) => {
     const _parsedEvents = [...parsedEvents];
     const eventsInCategory = eventsSorted.filter(
       ({ categoryId }) => categoryId === category.id,
@@ -16,7 +16,7 @@ const parseEvents = (_categories, _events, _subscriptions) => {
     _parsedEvents[index] = {
       ...category,
       events: category.isHighlightSection
-        ? eventsWithSubscription.slice(0, category.limit)
+        ? eventsSorted.slice(0, category.limit)
         : eventsInCategory,
     };
 
