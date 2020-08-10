@@ -14,7 +14,7 @@ const BUTTON_TYPE = {
   open: 'open',
 };
 
-export default function Button({ onClick, type, text, icon }) {
+const Button = ({ onClick, type, text, icon }) => {
   const buttonType = BUTTON_TYPE[type];
   const iconType = `${buttonType}Icon`;
 
@@ -33,4 +33,6 @@ export default function Button({ onClick, type, text, icon }) {
       )}
     </button>
   );
-}
+};
+
+export default Button;

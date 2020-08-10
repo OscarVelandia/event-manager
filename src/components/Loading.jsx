@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function Loading() {
+const Loading = () => {
   return <h1>...Loading</h1>;
-}
+};
+
+export default Loading;

@@ -7,15 +7,7 @@ const INPUT_TYPE = {
   input: 'input',
 };
 
-export default function Input({
-  type,
-  id,
-  options,
-  hasLabel,
-  customStyles,
-  onChange,
-  isSelected,
-}) {
+const Input = ({ type, id, options, hasLabel, customStyles, onChange, isSelected }) => {
   const inputType = INPUT_TYPE[type];
   const [optionsName] = options ? Object.keys(options) : [];
   const optionsEl =
@@ -50,4 +42,6 @@ export default function Input({
       )}
     </div>
   );
-}
+};
+
+export default Input;

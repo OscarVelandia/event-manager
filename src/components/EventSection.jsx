@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import styles from './EventSection.module.css';
 
-export default function EventSection({ label, events = [], onChange }) {
+const EventSection = ({ label, events = [], onChange }) => {
   return (
     <section>
       <h2 className={styles.sectionTitle}>{label}</h2>
@@ -33,4 +33,6 @@ export default function EventSection({ label, events = [], onChange }) {
       </div>
     </section>
   );
-}
+};
+
+export default EventSection;
