@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 import Button from './Button';
 
-const Modal = ({ children, activator, submitEvent }) => {
+const Modal = ({ children, activator, submitEvent, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const modalRoot = document.getElementById('modal-root');
 
@@ -38,6 +38,7 @@ const Modal = ({ children, activator, submitEvent }) => {
           <div className={styles.content}>
             <div>
               <div className={styles.header}>
+                <h2 className={styles.modalTitle}>{title}</h2>
                 <Button onClick={handleCloseModal} type="close" icon="close" />
               </div>
               {children}
