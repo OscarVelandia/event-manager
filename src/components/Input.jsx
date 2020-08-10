@@ -7,7 +7,16 @@ const INPUT_TYPE = {
   input: 'input',
 };
 
-const Input = ({ type, id, options, hasLabel, customStyles, onChange, isSelected }) => {
+const Input = ({
+  type,
+  name,
+  id,
+  options,
+  hasLabel,
+  customStyles,
+  onChange,
+  isSelected,
+}) => {
   const inputType = INPUT_TYPE[type];
   const [optionsName] = options ? Object.keys(options) : [];
   const optionsEl =
@@ -28,16 +37,16 @@ const Input = ({ type, id, options, hasLabel, customStyles, onChange, isSelected
         {hasLabel && id}
       </label>
       {options ? (
-        <select onChange={({ target }) => onChange(target.value, id)} id={optionsName}>
+        <select onChange={({ target }) => onChange(target, id)} id={optionsName}>
           {optionsEl}
         </select>
       ) : (
         <input
-          onChange={({ target }) => onChange(target, id)}
+          onChange={({ target }) => onChange(target, name || id)}
           type={type}
           id={id}
-          name={id}
-          checked={isSelected}
+          name={name || id}
+          checked={Boolean(isSelected)}
         />
       )}
     </div>
