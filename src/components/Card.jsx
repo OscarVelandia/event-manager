@@ -1,7 +1,16 @@
 import React from 'react';
 import styles from './Card.module.css';
+import Input from './Input';
 
-export default function Card({ eventLabel, description, location, date, categoryId }) {
+const Card = ({
+  eventLabel,
+  hasSubscription,
+  description,
+  location,
+  date,
+  eventId,
+  onChange,
+}) => {
   return (
     <div className={styles.cardContainer}>
       <h3 className={styles.title}>{eventLabel}</h3>
@@ -11,10 +20,16 @@ export default function Card({ eventLabel, description, location, date, category
       <p>{location}</p>
       <div className={styles.footer}>
         <p>{date}</p>
-        <label className={styles.checkbox} htmlFor={categoryId}>
-          <input type="checkbox" id={categoryId} name="categoryId" />
-        </label>
+        <Input
+          type="checkbox"
+          id={eventId}
+          hasLabel={false}
+          isSelected={hasSubscription}
+          onChange={onChange}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default Card;
