@@ -1,40 +1,37 @@
 .wrapper {
   position: fixed;
-}
-
-.backdrop {
-  position: fixed;
-  right: 0;
-  z-index: 100;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.content {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  z-index: 101;
-}
-
-.content > div {
-  padding: 2% 5%;
+  display: flex;
+  justify-content: center;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 }
 
 .modalTitle {
   font-size: 2.5rem;
   font-weight: 400;
   text-align: start;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  padding: 1% 5%;
+  height: 90vh;
+  width: 80vw;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.backdrop {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
 }
 
 .footer {
@@ -53,4 +50,18 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+@media (max-width: 480px) {
+  .modalTitle {
+    font-size: 2.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .content {
+    padding: 3% 5%;
+  }
+  .footer {
+    margin-bottom: 1%;
+  }
 }
