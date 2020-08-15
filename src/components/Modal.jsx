@@ -33,6 +33,17 @@ const Modal = ({ children, activator, closeHandler, submitHandler, title }) => {
             ${styles.basePosition}
             ${styles.wrapper}
             ${isOpen ? '' : styles.hidden}`}>
+          <div className={styles.content}>
+            <div className={styles.header}>
+              <h2 className={styles.modalTitle}>{title}</h2>
+              <Button onClick={handleCloseModal} type="close" icon="close" />
+            </div>
+            {children}
+            <div className={styles.footer}>
+              <Button onClick={handleCloseModal} type="cancel" text="CANCEL" />
+              <Button onClick={handleSubmitModal} type="submit" text="OK" />
+            </div>
+          </div>
           <div
             onClick={handleCloseModal}
             onKeyPress={handleCloseModal}
@@ -41,19 +52,6 @@ const Modal = ({ children, activator, closeHandler, submitHandler, title }) => {
             tabIndex="0"
             className={`${styles.basePosition} ${styles.backdrop}`}
           />
-          <div className={styles.content}>
-            <div>
-              <div className={styles.header}>
-                <h2 className={styles.modalTitle}>{title}</h2>
-                <Button onClick={handleCloseModal} type="close" icon="close" />
-              </div>
-              {children}
-              <div className={styles.footer}>
-                <Button onClick={handleCloseModal} type="cancel" text="CANCEL" />
-                <Button onClick={handleSubmitModal} type="submit" text="OK" />
-              </div>
-            </div>
-          </div>
         </div>,
         modalRoot,
       )}
