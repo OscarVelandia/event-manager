@@ -30,6 +30,7 @@ const INITIAL_EVENT_FORM_STATE = {
 };
 
 const App = () => {
+  const [hasEvents, setHasEvents] = useState(true);
   const [sections, setSections] = useState([]);
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -61,7 +62,6 @@ const App = () => {
   } = useFetch(`${BASE_PATH}/subscriptions`, RETRY_OPTIONS);
   const hasFetchError = errorCategories || errorEvents || errorSubscriptions;
   const isLoading = isLoadingEvents || isLoadingCategories || isLoadingSubscriptions;
-  const [hasEvents, setHasEvents] = useState(true);
 
   useEffect(() => {
     Promise.all([getCategories(), getEvents(), getSubscriptions()]).then(
@@ -69,7 +69,6 @@ const App = () => {
         if (!responseEvents.ok || !responseCategories.ok || !responseSubscriptions.ok) {
           return;
         }
-        INITIAL_EVENT_FORM_STATE.category = _categories[0].id;
 
         const parsedEvents = parseEvents(
           [HIGHLIGHT_EVENTS_SECTION, ..._categories],
@@ -77,11 +76,11 @@ const App = () => {
           _subscriptions,
         );
 
+        setHasEvents(Boolean(_events.length));
         setSections(parsedEvents);
         setEvents(_events);
         setCategories(_categories);
         setSubscriptions(_subscriptions);
-        setHasEvents(Boolean(_events.length));
       },
     );
   }, [
@@ -100,8 +99,8 @@ const App = () => {
       newSubscriptions,
     );
 
-    setSubscriptions(newSubscriptions);
     setSections(parsedEvents);
+    setSubscriptions(newSubscriptions);
   };
 
   const removeSubscription = (subscriptionId) => {
@@ -114,9 +113,9 @@ const App = () => {
     });
   };
 
-  const updateSubscriptions = (payload) => {
-    postSubscriptions(payload).then((_subscription) => {
-      const updatedSubscriptions = [...subscriptions, _subscription];
+  const addSubscription = (newSubscription) => {
+    postSubscriptions(newSubscription).then((addedSubscription) => {
+      const updatedSubscriptions = [...subscriptions, addedSubscription];
 
       updateEventsSubscription(updatedSubscriptions);
     });
@@ -124,15 +123,13 @@ const App = () => {
 
   const handleFavoriteEventCheckboxChange = ({ checked }, id) => {
     if (checked) {
-      const payload = { id: generateId(), eventId: id };
+      const newSubscription = { id: generateId(), eventId: id };
 
-      updateSubscriptions(payload);
+      addSubscription(newSubscription);
     } else {
-      const { id: deleteSubscriptionId } = subscriptions.find(
-        ({ eventId }) => eventId === id,
-      );
+      const { id: subscriptionId } = subscriptions.find(({ eventId }) => eventId === id);
 
-      removeSubscription(deleteSubscriptionId);
+      removeSubscription(subscriptionId);
     }
   };
 
@@ -147,7 +144,7 @@ const App = () => {
   const handleModalSubmit = () => {
     const { label, location, description, date, category } = createEventForm;
 
-    const payload = {
+    const newEvent = {
       id: generateId(),
       label,
       description,
@@ -156,7 +153,7 @@ const App = () => {
       categoryId: Number(category),
     };
 
-    postEvents(payload).then((addedEvent) => {
+    postEvents(newEvent).then((addedEvent) => {
       const updatedSection = sections.map((section) => {
         return section.id === Number(category)
           ? { ...section, events: sortByDate([...section.events, addedEvent], 'date') }
@@ -181,7 +178,7 @@ const App = () => {
               submitHandler={handleModalSubmit}
               closeHandler={handleModalClose}
               title="Create event"
-              activator={({ setIsOpen }) => (
+              activator={(setIsOpen) => (
                 <Button
                   onClick={() => setIsOpen(true)}
                   text="Create Event"
