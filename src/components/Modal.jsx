@@ -26,7 +26,7 @@ const Modal = ({ children, activator, closeHandler, submitHandler, title }) => {
 
   return (
     <>
-      {activator({ setIsOpen })}
+      {activator(setIsOpen)}
       {ReactDOM.createPortal(
         <div
           className={`
@@ -41,7 +41,6 @@ const Modal = ({ children, activator, closeHandler, submitHandler, title }) => {
             tabIndex="0"
             className={`${styles.basePosition} ${styles.backdrop}`}
           />
-
           <div className={styles.content}>
             <div>
               <div className={styles.header}>
