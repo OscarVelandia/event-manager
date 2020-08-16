@@ -9,8 +9,9 @@ const INPUT_TYPE = {
 
 const Input = ({
   type,
-  name,
   id,
+  name,
+  value,
   options,
   hasLabel,
   customStyles,
@@ -45,6 +46,7 @@ const Input = ({
           type={type}
           id={id}
           name={name || id}
+          value={value}
           checked={Boolean(isSelected)}
         />
       )}
