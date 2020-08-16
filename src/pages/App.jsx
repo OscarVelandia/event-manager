@@ -35,7 +35,7 @@ const App = () => {
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
-  const [createEventForm, setCreateEventForm] = useReducer(
+  const [newEventForm, setNewEventForm] = useReducer(
     (data, newData) => ({ ...data, ...newData }),
     INITIAL_EVENT_FORM_STATE,
   );
@@ -134,15 +134,15 @@ const App = () => {
   };
 
   const handleCreateEventFormChange = ({ value }, inputName) => {
-    setCreateEventForm({ [inputName]: value });
+    setNewEventForm({ [inputName]: value });
   };
 
   const handleModalClose = () => {
-    setCreateEventForm(INITIAL_EVENT_FORM_STATE);
+    setNewEventForm(INITIAL_EVENT_FORM_STATE);
   };
 
   const handleModalSubmit = () => {
-    const { label, location, description, date, category } = createEventForm;
+    const { label, location, description, date, category } = newEventForm;
 
     const newEvent = {
       id: generateId(),
@@ -187,6 +187,7 @@ const App = () => {
                 />
               )}>
               <EventCreationForm
+                formData={newEventForm}
                 categories={categories}
                 onChange={handleCreateEventFormChange}
               />
