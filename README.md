@@ -1,5 +1,6 @@
-# Dashboard de eventos
+# Events dashboard
 
-## Como correr cada proyecto
-1. Usar la ultima version de node.js, si tiene instalado nvm, la version se instalara automaticamente  
-2. correr ```yarn``` para instalar los paquetes, despues ```yarn start``` y ```yarn server``` para iniciar el proyecto 
+## How to run the project
+1. Use the last node lts 12 version, optional, if nvm is installed in your machine probably the `.nvmrc` file will set the node version automatically
+2. Run ```yarn``` to install the packages
+3. Run ```yarn start``` and ```yarn server``` to init the project
